@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" integrity="sha256-mUZM63G8m73Mcidfrv5E+Y61y7a12O5mW4ezU3bxqW4=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"yibailin.cn","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+<meta name="description" content="序号 程序 版本 or 作用    1 Trojan Trojan for linux   2 proxychains shell &#x2F;命令行 代理   3 mongodb MongoDB 4.4.4 Community Edition   4 mongodump、mongorestore 数据备份工具，本地安装或服务器安装   5 nodejs JavaScript 服务器端运行环境   6">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Next.js 项目服务器部署指南">
+<meta property="og:url" content="https://yibailin.cn/2021/10/29/Next-js-%E9%A1%B9%E7%9B%AE%E6%9C%8D%E5%8A%A1%E5%99%A8%E9%83%A8%E7%BD%B2%E6%8C%87%E5%8D%97/index.html">
+<meta property="og:site_name" content="林一白的博客">
+<meta property="og:description" content="序号 程序 版本 or 作用    1 Trojan Trojan for linux   2 proxychains shell &#x2F;命令行 代理   3 mongodb MongoDB 4.4.4 Community Edition   4 mongodump、mongorestore 数据备份工具，本地安装或服务器安装   5 nodejs JavaScript 服务器端运行环境   6">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-10-29T04:19:18.000Z">
+<meta property="article:modified_time" content="2021-10-29T12:47:02.713Z">
+<meta property="article:author" content="林一白">
+<meta property="article:tag" content="Next.js">
+<meta property="article:tag" content="Ubuntu">
+<meta property="article:tag" content="Server Deployment">
+<meta property="article:tag" content="MongoDB">
+<meta property="article:tag" content="SSH">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://yibailin.cn/2021/10/29/Next-js-%E9%A1%B9%E7%9B%AE%E6%9C%8D%E5%8A%A1%E5%99%A8%E9%83%A8%E7%BD%B2%E6%8C%87%E5%8D%97/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://yibailin.cn/2021/10/29/Next-js-%E9%A1%B9%E7%9B%AE%E6%9C%8D%E5%8A%A1%E5%99%A8%E9%83%A8%E7%BD%B2%E6%8C%87%E5%8D%97/","path":"2021/10/29/Next-js-项目服务器部署指南/","title":"Next.js 项目服务器部署指南"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Next.js 项目服务器部署指南 | 林一白的博客</title>
+  
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">林一白的博客</h1>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-笔记"><a href="/notes/" rel="section"><i class="fa fa-book fa-fw"></i>笔记</a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-Trojan%E5%AE%A2%E6%88%B7%E7%AB%AF"><span class="nav-number">1.</span> <span class="nav-text">1.Trojan客户端</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-1-%E4%B8%8B%E8%BD%BD%E5%AE%A2%E6%88%B7%E7%AB%AF"><span class="nav-number">1.1.</span> <span class="nav-text">1.1 下载客户端</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#1-2-%E8%A7%A3%E5%8E%8B"><span class="nav-number">1.2.</span> <span class="nav-text">1.2 解压</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#1-3-%E9%85%8D%E7%BD%AE%E4%BB%A3%E7%90%86"><span class="nav-number">1.3.</span> <span class="nav-text">1.3 配置代理</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#1-4-%E6%96%B0%E5%A2%9E-trojan-service"><span class="nav-number">1.4.</span> <span class="nav-text">1.4 新增 trojan.service</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#1-5-%E5%90%AF%E5%8A%A8-trojan"><span class="nav-number">1.5.</span> <span class="nav-text">1.5 启动 trojan</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#1-6-%E6%9F%A5%E7%9C%8B%E6%98%AF%E5%90%A6%E5%90%AF%E5%8A%A8%E6%88%90%E5%8A%9F"><span class="nav-number">1.6.</span> <span class="nav-text">1.6 查看是否启动成功</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#1-6-1-%E6%96%B9%E6%B3%951%E2%80%94systemctl"><span class="nav-number">1.6.1.</span> <span class="nav-text">1.6.1 方法1—systemctl</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#1-6-2-%E6%96%B9%E6%B3%952%E2%80%94ps"><span class="nav-number">1.6.2.</span> <span class="nav-text">1.6.2 方法2—ps</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#1-6-3-%E6%96%B9%E6%B3%953%E2%80%94curl"><span class="nav-number">1.6.3.</span> <span class="nav-text">1.6.3 方法3—curl</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#1-7-%E8%AE%BE%E7%BD%AE%E5%BC%80%E6%9C%BA%E5%90%AF%E5%8A%A8"><span class="nav-number">1.7.</span> <span class="nav-text">1.7 设置开机启动</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-proxychains"><span class="nav-number">2.</span> <span class="nav-text">2. proxychains</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#2-1-%E5%AE%89%E8%A3%85"><span class="nav-number">2.1.</span> <span class="nav-text">2.1 安装</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-2-%E9%85%8D%E7%BD%AE"><span class="nav-number">2.2.</span> <span class="nav-text">2.2 配置</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-3-%E6%B5%8B%E8%AF%95%E6%98%AF%E5%90%A6%E6%88%90%E5%8A%9F%E5%AE%89%E8%A3%85"><span class="nav-number">2.3.</span> <span class="nav-text">2.3 测试是否成功安装</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#2-3-1-%E6%B5%8B%E8%AF%95%E6%9C%AC%E5%9C%B0-IP"><span class="nav-number">2.3.1.</span> <span class="nav-text">2.3.1 测试本地 IP</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#2-3-2-%E6%B5%8B%E8%AF%95%E4%BB%A3%E7%90%86-IP"><span class="nav-number">2.3.2.</span> <span class="nav-text">2.3.2 测试代理 IP</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-4-shell-%E4%B8%AD%E4%BD%BF%E7%94%A8%E4%BB%A3%E7%90%86"><span class="nav-number">2.4.</span> <span class="nav-text">2.4 shell 中使用代理</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-MongDB"><span class="nav-number">3.</span> <span class="nav-text">3.MongDB</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#3-1-Ubuntu%E5%AE%89%E8%A3%85"><span class="nav-number">3.1.</span> <span class="nav-text">3.1 Ubuntu安装</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#3-1-1-%E6%B7%BB%E5%8A%A0-MongoDB-public-GPG-Key"><span class="nav-number">3.1.1.</span> <span class="nav-text">3.1.1 添加 MongoDB public GPG Key</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#3-1-2-%E5%88%9B%E5%BB%BAMongoDB%E5%AE%89%E8%A3%85%E6%BA%90%E5%88%97%E8%A1%A8"><span class="nav-number">3.1.2.</span> <span class="nav-text">3.1.2 创建MongoDB安装源列表</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#3-1-3-%E9%87%8D%E6%96%B0%E5%8A%A0%E8%BD%BD%E5%8C%85%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="nav-number">3.1.3.</span> <span class="nav-text">3.1.3 重新加载包数据库</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#3-1-4-%E5%AE%89%E8%A3%85-MongoDB-%E5%8C%85"><span class="nav-number">3.1.4.</span> <span class="nav-text">3.1.4 安装 MongoDB 包</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#3-1-5-%E5%9B%BA%E5%AE%9A%E7%89%88%E6%9C%AC%E4%BF%A1%E6%81%AF"><span class="nav-number">3.1.5.</span> <span class="nav-text">3.1.5 固定版本信息</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-2-%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4"><span class="nav-number">3.2.</span> <span class="nav-text">3.2 常用命令</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#3-2-1-%E5%90%AF%E5%8A%A8%E3%80%81%E5%81%9C%E6%AD%A2%E3%80%81%E7%8A%B6%E6%80%81%E3%80%81%E9%87%8D%E5%90%AF"><span class="nav-number">3.2.1.</span> <span class="nav-text">3.2.1 启动、停止、状态、重启</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#3-2-2-%E8%AE%BE%E7%BD%AE%E5%BC%80%E6%9C%BA%E5%90%AF%E5%8A%A8"><span class="nav-number">3.2.2.</span> <span class="nav-text">3.2.2 设置开机启动</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#3-2-3-%E6%9F%A5%E7%9C%8B%E6%97%A5%E5%BF%97"><span class="nav-number">3.2.3.</span> <span class="nav-text">3.2.3 查看日志</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#3-2-4-%E5%BC%80%E5%90%AF%E4%B8%80%E4%B8%AA-mongo-shell%E8%BF%9E%E6%8E%A5%E4%BB%A5%E4%BD%BF%E7%94%A8-MongoDB"><span class="nav-number">3.2.4.</span> <span class="nav-text">3.2.4 开启一个 mongo shell连接以使用 MongoDB</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-3-%E6%B7%BB%E5%8A%A0%E8%B6%85%E7%BA%A7%E7%AE%A1%E7%90%86%E5%91%98"><span class="nav-number">3.3.</span> <span class="nav-text">3.3 添加超级管理员</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#3-3-1-%E6%B7%BB%E5%8A%A0%E8%B6%85%E7%BA%A7%E7%AE%A1%E7%90%86%E5%91%98"><span class="nav-number">3.3.1.</span> <span class="nav-text">3.3.1 添加超级管理员</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#3-3-2-%E5%BC%80%E5%90%AF%E9%AA%8C%E8%AF%81"><span class="nav-number">3.3.2.</span> <span class="nav-text">3.3.2 开启验证</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#3-3-3-%E9%87%8D%E5%90%AF-MongoDB"><span class="nav-number">3.3.3.</span> <span class="nav-text">3.3.3 重启 MongoDB</span></a></li></ol></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-MongoDB%E6%95%B0%E6%8D%AE%E4%BB%8E%E6%9C%AC%E5%9C%B0%E5%A4%87%E4%BB%BD%E8%87%B3%E6%9C%8D%E5%8A%A1%E5%99%A8"><span class="nav-number">4.</span> <span class="nav-text">4.MongoDB数据从本地备份至服务器</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#4-1-%E5%A4%87%E4%BB%BD%E5%B7%A5%E5%85%B7-mongodump-%E4%B8%8E-mongorestore"><span class="nav-number">4.1.</span> <span class="nav-text">4.1 备份工具 mongodump 与 mongorestore</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#4-2-%E5%A4%87%E4%BB%BD%E4%BB%A3%E7%A0%81%E2%80%94%E2%80%94%E4%BB%8E%E6%9C%AC%E5%9C%B0%E5%A4%87%E4%BB%BD%E8%87%B3%E6%9C%8D%E5%8A%A1%E5%99%A8"><span class="nav-number">4.2.</span> <span class="nav-text">4.2 备份代码——从本地备份至服务器</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-Node-js"><span class="nav-number">5.</span> <span class="nav-text">5.Node.js</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#5-1-%E5%AE%89%E8%A3%85"><span class="nav-number">5.1.</span> <span class="nav-text">5.1 安装</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-PM2"><span class="nav-number">6.</span> <span class="nav-text">6.PM2</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#6-1-%E5%AE%89%E8%A3%85"><span class="nav-number">6.1.</span> <span class="nav-text">6.1 安装</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#6-2-%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6"><span class="nav-number">6.2.</span> <span class="nav-text">6.2 配置文件</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#6-3-%E9%83%A8%E7%BD%B2"><span class="nav-number">6.3.</span> <span class="nav-text">6.3 部署</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#6-3-1-%E5%88%9D%E6%AC%A1%E9%83%A8%E7%BD%B2"><span class="nav-number">6.3.1.</span> <span class="nav-text">6.3.1 初次部署</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#6-3-2-%E9%83%A8%E7%BD%B2"><span class="nav-number">6.3.2.</span> <span class="nav-text">6.3.2 部署</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#6-3-3-%E9%83%A8%E7%BD%B2%E4%B9%8B%E5%90%8E"><span class="nav-number">6.3.3.</span> <span class="nav-text">6.3.3 部署之后</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#6-4-%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4"><span class="nav-number">6.4.</span> <span class="nav-text">6.4 常用命令</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#7-SSH"><span class="nav-number">7.</span> <span class="nav-text">7.SSH</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#7-1-%E7%94%9F%E6%88%90%E5%85%AC%E9%92%A5%E5%92%8C%E7%A7%81%E9%92%A5"><span class="nav-number">7.1.</span> <span class="nav-text">7.1 生成公钥和私钥</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#7-2-%E6%8B%B7%E8%B4%9D%E5%85%AC%E9%92%A5%E8%87%B3-GitHub"><span class="nav-number">7.2.</span> <span class="nav-text">7.2 拷贝公钥至 GitHub</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#7-3-%E8%AE%BE%E7%BD%AE%E6%9C%AC%E5%9C%B0%E6%97%A0%E5%AF%86%E7%A0%81%E8%AE%BF%E9%97%AE%E6%9C%8D%E5%8A%A1%E5%99%A8"><span class="nav-number">7.3.</span> <span class="nav-text">7.3 设置本地无密码访问服务器</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#7-3-1-%E9%A6%96%E6%AC%A1%E8%AE%BF%E9%97%AE"><span class="nav-number">7.3.1.</span> <span class="nav-text">7.3.1 首次访问</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#7-3-2-%E5%B0%86%E6%9C%AC%E5%9C%B0%E5%85%AC%E9%92%A5%E6%8F%90%E4%BA%A4%E8%87%B3%E6%9C%8D%E5%8A%A1%E5%99%A8"><span class="nav-number">7.3.2.</span> <span class="nav-text">7.3.2 将本地公钥提交至服务器</span></a></li></ol></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#8-Nginx"><span class="nav-number">8.</span> <span class="nav-text">8.Nginx</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#8-1-%E5%AE%89%E8%A3%85"><span class="nav-number">8.1.</span> <span class="nav-text">8.1 安装</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#8-2-%E9%85%8D%E7%BD%AE"><span class="nav-number">8.2.</span> <span class="nav-text">8.2 配置</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#8-2-1-%E6%96%B0%E5%BB%BA%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6"><span class="nav-number">8.2.1.</span> <span class="nav-text">8.2.1 新建配置文件</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#8-2-2-%E6%B7%BB%E5%8A%A0%E7%A1%AC%E9%93%BE%E6%8E%A5"><span class="nav-number">8.2.2.</span> <span class="nav-text">8.2.2 添加硬链接</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#8-2-3-%E6%AF%8F%E6%AC%A1%E6%9B%B4%E6%96%B0-nginx-%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E5%90%8E%E6%89%A7%E8%A1%8C%EF%BC%9A"><span class="nav-number">8.2.3.</span> <span class="nav-text">8.2.3 每次更新 nginx 配置文件后执行：</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#8-3-%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E5%86%85%E5%AE%B9"><span class="nav-number">8.3.</span> <span class="nav-text">8.3 配置文件内容</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#8-3-1-%E6%B7%BB%E5%8A%A0%E5%9F%9F%E5%90%8D%E5%89%8D%EF%BC%8C%E5%8F%AA%E9%80%9A%E8%BF%87IP%E8%AE%BF%E9%97%AE%E6%97%B6"><span class="nav-number">8.3.1.</span> <span class="nav-text">8.3.1 添加域名前，只通过IP访问时</span></a></li></ol></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="林一白"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">林一白</p>
+  <div class="site-description" itemprop="description">最初的梦想，一定会到达</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">5</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Yibailin" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Yibailin" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:linyibai23@gmail.com" title="E-Mail → mailto:linyibai23@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://yibailin.cn/2021/10/29/Next-js-%E9%A1%B9%E7%9B%AE%E6%9C%8D%E5%8A%A1%E5%99%A8%E9%83%A8%E7%BD%B2%E6%8C%87%E5%8D%97/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="林一白">
+      <meta itemprop="description" content="最初的梦想，一定会到达">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="林一白的博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Next.js 项目服务器部署指南
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2021-10-29 12:19:18 / 修改时间：20:47:02" itemprop="dateCreated datePublished" datetime="2021-10-29T12:19:18+08:00">2021-10-29</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Node-js/" itemprop="url" rel="index"><span itemprop="name">Node.js</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <table>
+<thead>
+<tr>
+<th>序号</th>
+<th>程序</th>
+<th>版本 or 作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>Trojan</td>
+<td>Trojan for linux</td>
+</tr>
+<tr>
+<td>2</td>
+<td>proxychains</td>
+<td>shell /命令行 代理</td>
+</tr>
+<tr>
+<td>3</td>
+<td>mongodb</td>
+<td>MongoDB 4.4.4 Community Edition</td>
+</tr>
+<tr>
+<td>4</td>
+<td>mongodump、mongorestore</td>
+<td>数据备份工具，本地安装或服务器安装</td>
+</tr>
+<tr>
+<td>5</td>
+<td>nodejs</td>
+<td>JavaScript 服务器端运行环境</td>
+</tr>
+<tr>
+<td>6</td>
+<td>pm2</td>
+<td>进程守护、自动化部署项目</td>
+</tr>
+<tr>
+<td>7</td>
+<td>ssh</td>
+<td>通过ssh协议远程连接</td>
+</tr>
+<tr>
+<td>8</td>
+<td>nginx</td>
+<td>80端口反向代理到3000端口</td>
+</tr>
+</tbody></table>
+<span id="more"></span>
+
+<h4 id="1-Trojan客户端"><a href="#1-Trojan客户端" class="headerlink" title="1.Trojan客户端"></a>1.Trojan客户端</h4><h5 id="1-1-下载客户端"><a href="#1-1-下载客户端" class="headerlink" title="1.1 下载客户端"></a>1.1 下载客户端</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">~$</span><span class="bash"> <span class="built_in">cd</span> /usr/src &amp;&amp; wget https://github.com/trojan-gfw/trojan/releases/download/v1.15.1/trojan-1.15.1-linux-amd64.tar.xz</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="1-2-解压"><a href="#1-2-解压" class="headerlink" title="1.2 解压"></a>1.2 解压</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar xvf trojan-1.15.1-linux-amd64.tar.xz</span><br></pre></td></tr></table></figure>
+
+<h5 id="1-3-配置代理"><a href="#1-3-配置代理" class="headerlink" title="1.3 配置代理"></a>1.3 配置代理</h5><p>打开配置文件：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo vim /usr/src/trojan/config.json</span><br></pre></td></tr></table></figure>
+
+<p>修改如下：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&quot;run_type&quot;</span>: <span class="string">&quot;client&quot;</span>, # 修改为 client</span><br><span class="line">   <span class="string">&quot;local_addr&quot;</span>: <span class="string">&quot;0.0.0.0&quot;</span>,</span><br><span class="line">   <span class="string">&quot;local_port&quot;</span>: <span class="number">1080</span>, # 修改为 <span class="number">1080</span></span><br><span class="line">   <span class="string">&quot;remote_addr&quot;</span>: <span class="string">&quot;some.domain&quot;</span>, # Trojan代理的域名</span><br><span class="line">   <span class="string">&quot;remote_port&quot;</span>: <span class="number">443</span>, # 修改为 <span class="number">443</span></span><br><span class="line">   <span class="string">&quot;password&quot;</span>: [<span class="string">&quot;password&quot;</span>], # Trojan代理的密码</span><br><span class="line">   “ssl<span class="string">&quot;: &#123;</span></span><br><span class="line"><span class="string">   	&quot;</span>verify<span class="string">&quot;: false, # 修改为 false （如果配置文件中没有，则添加这个配置）</span></span><br><span class="line"><span class="string">       &quot;</span>verify_hostname<span class="string">&quot;: false, # 修改为 false （如果配置文件中没有，则添加这个配置）</span></span><br><span class="line"><span class="string">       &quot;</span>cert<span class="string">&quot;: &quot;</span><span class="string">&quot;, # 改成空的</span></span><br><span class="line"><span class="string">   &#125;</span></span><br><span class="line"><span class="string">   </span></span><br><span class="line"><span class="string">   </span></span><br></pre></td></tr></table></figure>
+
+<h5 id="1-4-新增-trojan-service"><a href="#1-4-新增-trojan-service" class="headerlink" title="1.4 新增 trojan.service"></a>1.4 新增 trojan.service</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">cat &gt; /etc/systemd/system/trojan.service &lt;&lt;-EOF</span><br><span class="line">[Unit]</span><br><span class="line">Description=trojan</span><br><span class="line">After=network.target</span><br><span class="line"></span><br><span class="line">[Service]</span><br><span class="line">Type=simple</span><br><span class="line">PIDFile=/usr/src/trojan/trojan.pid</span><br><span class="line">ExecStart=/usr/src/trojan/trojan -c /usr/src/trojan/config.json -l /usr/src/trojan/trojan.log</span><br><span class="line">ExecReload=/bin/kill -HUP \$MAINPID</span><br><span class="line">Restart=on-failure</span><br><span class="line">RestartSec=1s</span><br><span class="line"></span><br><span class="line">[Install]</span><br><span class="line">WantedBy=multi-user.target</span><br><span class="line"></span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
+
+<h5 id="1-5-启动-trojan"><a href="#1-5-启动-trojan" class="headerlink" title="1.5 启动 trojan"></a>1.5 启动 trojan</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl start trojan</span><br></pre></td></tr></table></figure>
+
+<h5 id="1-6-查看是否启动成功"><a href="#1-6-查看是否启动成功" class="headerlink" title="1.6 查看是否启动成功"></a>1.6 查看是否启动成功</h5><h6 id="1-6-1-方法1—systemctl"><a href="#1-6-1-方法1—systemctl" class="headerlink" title="1.6.1 方法1—systemctl"></a>1.6.1 方法1—systemctl</h6><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl status trojan</span><br></pre></td></tr></table></figure>
+
+<h6 id="1-6-2-方法2—ps"><a href="#1-6-2-方法2—ps" class="headerlink" title="1.6.2 方法2—ps"></a>1.6.2 方法2—ps</h6><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ps aux | grep trojan | grep -v grep</span><br></pre></td></tr></table></figure>
+
+<h6 id="1-6-3-方法3—curl"><a href="#1-6-3-方法3—curl" class="headerlink" title="1.6.3 方法3—curl"></a>1.6.3 方法3—curl</h6><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl ip.sb --socks5 127.0.0.1:1080</span><br></pre></td></tr></table></figure>
+
+<p>看是否为代理服务器的 IP</p>
+<h5 id="1-7-设置开机启动"><a href="#1-7-设置开机启动" class="headerlink" title="1.7 设置开机启动"></a>1.7 设置开机启动</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl enable trojan</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="2-proxychains"><a href="#2-proxychains" class="headerlink" title="2. proxychains"></a>2. proxychains</h4><h5 id="2-1-安装"><a href="#2-1-安装" class="headerlink" title="2.1 安装"></a>2.1 安装</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install proxychains</span><br></pre></td></tr></table></figure>
+
+<h5 id="2-2-配置"><a href="#2-2-配置" class="headerlink" title="2.2 配置"></a>2.2 配置</h5><p>编辑配置文件，</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo vim /etc/proxychains.conf</span><br></pre></td></tr></table></figure>
+
+<p>修改如下：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> socks4 127.0.0.1 9050 <span class="comment"># 注释掉</span></span></span><br><span class="line">socks5 127.0.0.1 1080 # 加入Trojan的代理设置</span><br></pre></td></tr></table></figure>
+
+<h5 id="2-3-测试是否成功安装"><a href="#2-3-测试是否成功安装" class="headerlink" title="2.3 测试是否成功安装"></a>2.3 测试是否成功安装</h5><h6 id="2-3-1-测试本地-IP"><a href="#2-3-1-测试本地-IP" class="headerlink" title="2.3.1 测试本地 IP"></a>2.3.1 测试本地 IP</h6><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -4 ip.sb</span><br></pre></td></tr></table></figure>
+
+<p>将显示本地的IP；</p>
+<h6 id="2-3-2-测试代理-IP"><a href="#2-3-2-测试代理-IP" class="headerlink" title="2.3.2 测试代理 IP"></a>2.3.2 测试代理 IP</h6><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">proxychains curl -4 ip.sb</span><br></pre></td></tr></table></figure>
+
+<p>将显示Trojan代理的 IP。</p>
+<h5 id="2-4-shell-中使用代理"><a href="#2-4-shell-中使用代理" class="headerlink" title="2.4 shell 中使用代理"></a>2.4 shell 中使用代理</h5><p>shell 中需要代理时，只需要在前面加上 <code>proxychains</code> 即可，如：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">proxychains npm install</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="3-MongDB"><a href="#3-MongDB" class="headerlink" title="3.MongDB"></a>3.MongDB</h4><h5 id="3-1-Ubuntu安装"><a href="#3-1-Ubuntu安装" class="headerlink" title="3.1 Ubuntu安装"></a>3.1 Ubuntu安装</h5><p>MongoDB 版本：4.4.4</p>
+<p>Ubuntu 版本：20.04 LTS (“Focal”)</p>
+<p>查看 Ubuntu 版本命令：<code>lsb_release -dc</code></p>
+<h6 id="3-1-1-添加-MongoDB-public-GPG-Key"><a href="#3-1-1-添加-MongoDB-public-GPG-Key" class="headerlink" title="3.1.1 添加 MongoDB public GPG Key"></a>3.1.1 添加 MongoDB public GPG Key</h6><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget -qO - https://www.mongodb.org/static/pgp/server-4.4.asc | sudo apt-key add -</span><br></pre></td></tr></table></figure>
+
+<h6 id="3-1-2-创建MongoDB安装源列表"><a href="#3-1-2-创建MongoDB安装源列表" class="headerlink" title="3.1.2 创建MongoDB安装源列表"></a>3.1.2 创建MongoDB安装源列表</h6><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">echo &quot;deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu focal/mongodb-org/4.4 multiverse&quot; | sudo tee /etc/apt/sources.list.d/mongodb-org-4.4.list</span><br></pre></td></tr></table></figure>
+
+<h6 id="3-1-3-重新加载包数据库"><a href="#3-1-3-重新加载包数据库" class="headerlink" title="3.1.3 重新加载包数据库"></a>3.1.3 重新加载包数据库</h6><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get update</span><br></pre></td></tr></table></figure>
+
+<h6 id="3-1-4-安装-MongoDB-包"><a href="#3-1-4-安装-MongoDB-包" class="headerlink" title="3.1.4 安装 MongoDB 包"></a>3.1.4 安装 MongoDB 包</h6><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install -y mongodb-org=4.4.4 mongodb-org-server=4.4.4 mongodb-org-shell=4.4.4 mongodb-org-mongos=4.4.4 mongodb-org-tools=4.4.4</span><br></pre></td></tr></table></figure>
+
+<h6 id="3-1-5-固定版本信息"><a href="#3-1-5-固定版本信息" class="headerlink" title="3.1.5 固定版本信息"></a>3.1.5 固定版本信息</h6><p>避免自动更新，执行：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">echo &quot;mongodb-org hold&quot; | sudo dpkg --set-selections</span><br><span class="line">echo &quot;mongodb-org-server hold&quot; | sudo dpkg --set-selections</span><br><span class="line">echo &quot;mongodb-org-shell hold&quot; | sudo dpkg --set-selections</span><br><span class="line">echo &quot;mongodb-org-mongos hold&quot; | sudo dpkg --set-selections</span><br><span class="line">echo &quot;mongodb-org-tools hold&quot; | sudo dpkg --set-selections</span><br></pre></td></tr></table></figure>
+
+<h5 id="3-2-常用命令"><a href="#3-2-常用命令" class="headerlink" title="3.2 常用命令"></a>3.2 常用命令</h5><h6 id="3-2-1-启动、停止、状态、重启"><a href="#3-2-1-启动、停止、状态、重启" class="headerlink" title="3.2.1 启动、停止、状态、重启"></a>3.2.1 启动、停止、状态、重启</h6><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl start mongodsudo systemctl stop mongodsudo systemctl status mongodsudo systemctl restart mongod</span><br></pre></td></tr></table></figure>
+
+<h6 id="3-2-2-设置开机启动"><a href="#3-2-2-设置开机启动" class="headerlink" title="3.2.2 设置开机启动"></a>3.2.2 设置开机启动</h6><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl enable mongod</span><br></pre></td></tr></table></figure>
+
+<h6 id="3-2-3-查看日志"><a href="#3-2-3-查看日志" class="headerlink" title="3.2.3 查看日志"></a>3.2.3 查看日志</h6><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo vim /var/log/mongodb/mongod.log</span><br></pre></td></tr></table></figure>
+
+<h6 id="3-2-4-开启一个-mongo-shell连接以使用-MongoDB"><a href="#3-2-4-开启一个-mongo-shell连接以使用-MongoDB" class="headerlink" title="3.2.4 开启一个 mongo shell连接以使用 MongoDB"></a>3.2.4 开启一个 <code>mongo shell</code>连接以使用 MongoDB</h6><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mongo &quot;mongodb://domain:port&quot; -u user -p password</span><br></pre></td></tr></table></figure>
+
+<h5 id="3-3-添加超级管理员"><a href="#3-3-添加超级管理员" class="headerlink" title="3.3 添加超级管理员"></a>3.3 添加超级管理员</h5><h6 id="3-3-1-添加超级管理员"><a href="#3-3-1-添加超级管理员" class="headerlink" title="3.3.1 添加超级管理员"></a>3.3.1 添加超级管理员</h6><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">use admin  </span><br><span class="line">db.createUser(&#123;</span><br><span class="line">  user: &#x27;admin&#x27;,  // 用户名</span><br><span class="line">  pwd: &#x27;123456&#x27;,  // 密码</span><br><span class="line">  roles:[&#123;</span><br><span class="line">    role: &#x27;root&#x27;,  // 角色</span><br><span class="line">    db: &#x27;admin&#x27;  // 数据库</span><br><span class="line">  &#125;]</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>设置完成，可以输入 <code>show users</code> 查看是否设置成功</p>
+<h6 id="3-3-2-开启验证"><a href="#3-3-2-开启验证" class="headerlink" title="3.3.2 开启验证"></a>3.3.2 开启验证</h6><p>找到 mongod 配置文件：<code>/etc/mongod.conf</code>，设置 <code>security</code>如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">security:  authorization: enabled</span><br></pre></td></tr></table></figure>
+
+<h6 id="3-3-3-重启-MongoDB"><a href="#3-3-3-重启-MongoDB" class="headerlink" title="3.3.3 重启 MongoDB"></a>3.3.3 重启 MongoDB</h6><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl restart mongod</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="4-MongoDB数据从本地备份至服务器"><a href="#4-MongoDB数据从本地备份至服务器" class="headerlink" title="4.MongoDB数据从本地备份至服务器"></a>4.MongoDB数据从本地备份至服务器</h4><h5 id="4-1-备份工具-mongodump-与-mongorestore"><a href="#4-1-备份工具-mongodump-与-mongorestore" class="headerlink" title="4.1 备份工具 mongodump 与 mongorestore"></a>4.1 备份工具 <code>mongodump</code> 与 <code>mongorestore</code></h5><p>安装 <a target="_blank" rel="noopener" href="https://docs.mongodb.com/database-tools/">MongoDB Database Tools</a> </p>
+<h5 id="4-2-备份代码——从本地备份至服务器"><a href="#4-2-备份代码——从本地备份至服务器" class="headerlink" title="4.2 备份代码——从本地备份至服务器"></a>4.2 备份代码——从本地备份至服务器</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 只能在 命令行 中执行，因为sys.stdout在vscode ipyhon交互模式中与再命令行中是不同的，前者没有fileno属性</span></span><br><span class="line"><span class="keyword">import</span> subprocess</span><br><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"></span><br><span class="line"><span class="comment"># 保存备份数据的文件夹，默认为当前目录下的 dump 文件夹</span></span><br><span class="line">output = <span class="string">&#x27;e:\\backup_data\\data\\&#x27;</span> </span><br><span class="line"></span><br><span class="line"><span class="comment"># 要备份的数据库</span></span><br><span class="line">dbs = [<span class="string">&#x27;strategy&#x27;</span>, <span class="string">&#x27;stock&#x27;</span>, <span class="string">&#x27;minute_stock&#x27;</span>]</span><br><span class="line"><span class="comment"># 远程数据库地址</span></span><br><span class="line">remote = <span class="string">&#x27;mongodb://IP:PORT&#x27;</span> </span><br><span class="line"></span><br><span class="line"><span class="comment"># python 执行 shell 命令的函数</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">run_shell</span>(<span class="params">shell</span>):</span></span><br><span class="line">    cmd = subprocess.Popen(shell, stdin=subprocess.PIPE, stderr=sys.stderr, close_fds=<span class="literal">True</span>,</span><br><span class="line">                           stdout=sys.stdout, universal_newlines=<span class="literal">True</span>, shell=<span class="literal">True</span>, bufsize=<span class="number">1</span>)</span><br><span class="line">    cmd.communicate() </span><br><span class="line">    <span class="keyword">return</span> cmd.returncode</span><br><span class="line"></span><br><span class="line"><span class="comment"># 从数据库提取数据的函数</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">dump</span>(<span class="params">dbs</span>):</span></span><br><span class="line">    <span class="keyword">for</span> db <span class="keyword">in</span> dbs:</span><br><span class="line">        <span class="comment"># mongodump 命令</span></span><br><span class="line">        shell = [<span class="string">&#x27;mongodump&#x27;</span>, <span class="string">&#x27;--gzip&#x27;</span>, <span class="string">&#x27;-d&#x27;</span>, db, <span class="string">&#x27;-o&#x27;</span>, output]</span><br><span class="line">        run_shell(shell)</span><br><span class="line"><span class="comment"># 备份函数</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">backup</span>(<span class="params">dbs</span>):</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;\nstart dumping...\n&#x27;</span>)</span><br><span class="line">    dump(dbs)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;\nstart restore...\n&#x27;</span>)</span><br><span class="line">    <span class="comment"># mongorestore 命令:将数据推送至远程服务器</span></span><br><span class="line">    shell = [<span class="string">&#x27;mongorestore&#x27;</span>, <span class="string">&#x27;--gzip&#x27;</span>, <span class="string">&#x27;--uri&#x27;</span>, remote, <span class="string">&#x27;-u&#x27;</span>, <span class="string">&#x27;MongoDB user&#x27;</span>, <span class="string">&#x27;-p&#x27;</span>, <span class="string">&#x27;password&#x27;</span>, <span class="string">&#x27;--dir&#x27;</span>, output]</span><br><span class="line">    run_shell(shell)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;\nDone.&#x27;</span>)</span><br><span class="line"></span><br><span class="line">backup(dbs)</span><br></pre></td></tr></table></figure>
+
+<p><strong>注意事项：</strong> </p>
+<ol>
+<li>远程服务器 mongod的bindIP要修改为<code>0.0.0.0</code> 才能允许外部访问，需在腾讯云控制台开放指定端口，且不能为27017(腾讯限制)。</li>
+<li>本地与服务器端的MongoDB版本应一致</li>
+<li>服务器MongoDB启动错误处理 [Failed To Unlink Socket File Error When Start Mongo DB、code=exited, status=14]： 删除 <code>mongodb-27017.sock</code>文件。</li>
+</ol>
+<h4 id="5-Node-js"><a href="#5-Node-js" class="headerlink" title="5.Node.js"></a>5.Node.js</h4><h5 id="5-1-安装"><a href="#5-1-安装" class="headerlink" title="5.1 安装"></a>5.1 安装</h5><p>服务器与本地版本应保持一致，Ubuntu 服务器安装代码：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> Using Ubuntu</span></span><br><span class="line">curl -fsSL https://deb.nodesource.com/setup_14.x | sudo -E bash -sudo apt-get install -y nodejs</span><br></pre></td></tr></table></figure>
+
+<p>其他版本的<a target="_blank" rel="noopener" href="https://github.com/nodesource/distributions/blob/master/README.md#debinstall">Node.js安装说明与地址</a></p>
+<h4 id="6-PM2"><a href="#6-PM2" class="headerlink" title="6.PM2"></a>6.PM2</h4><h5 id="6-1-安装"><a href="#6-1-安装" class="headerlink" title="6.1 安装"></a>6.1 安装</h5><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install pm2 -g</span><br></pre></td></tr></table></figure>
+
+<h5 id="6-2-配置文件"><a href="#6-2-配置文件" class="headerlink" title="6.2 配置文件"></a>6.2 配置文件</h5><p>运行：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pm2 ecosystem</span><br></pre></td></tr></table></figure>
+
+<p>生成模板文件 <code>ecosystem.config.js</code>，配置文件参考如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  <span class="attr">apps</span> : [&#123;</span><br><span class="line">    <span class="attr">name</span>: <span class="string">&#x27;app name&#x27;</span>,</span><br><span class="line">    <span class="attr">script</span>: <span class="string">&#x27;server.js&#x27;</span>, <span class="comment">// 入口文件</span></span><br><span class="line">    <span class="attr">autorestart</span>: <span class="literal">true</span>,</span><br><span class="line">    <span class="attr">watch</span>: <span class="literal">false</span>,</span><br><span class="line">    <span class="attr">max_memory_restart</span>: <span class="string">&#x27;1G&#x27;</span>,</span><br><span class="line">    <span class="attr">env</span>: &#123;</span><br><span class="line">      <span class="attr">NODE_ENV</span>: <span class="string">&#x27;development&#x27;</span></span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="attr">env_production</span>: &#123;</span><br><span class="line">      <span class="attr">NODE_ENV</span>: <span class="string">&#x27;production&#x27;</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;],</span><br><span class="line"></span><br><span class="line">  <span class="attr">deploy</span> : &#123;</span><br><span class="line">    <span class="attr">production</span> : &#123;</span><br><span class="line">      <span class="attr">user</span> : <span class="string">&#x27;User&#x27;</span>, <span class="comment">// 服务器用户名</span></span><br><span class="line">      <span class="attr">host</span> : <span class="string">&#x27;IP&#x27;</span>, <span class="comment">// 服务器地址</span></span><br><span class="line">      <span class="attr">ref</span>  : <span class="string">&#x27;origin/main&#x27;</span>,   <span class="comment">// 仓库 branch</span></span><br><span class="line">      <span class="attr">repo</span> : <span class="string">&#x27;git@github.com:user/project.git&#x27;</span>, <span class="comment">// 仓库地址</span></span><br><span class="line">      <span class="attr">path</span> : <span class="string">&#x27;/path/to/project&#x27;</span>, <span class="comment">// 项目在服务器上的根目录</span></span><br><span class="line">      <span class="string">&#x27;post-deploy&#x27;</span> : <span class="string">&#x27;npm install &amp;&amp; npm run build &amp;&amp; pm2 reload ecosystem.config.js --env production&#x27;</span>,</span><br><span class="line">        <span class="comment">// pm2 reload 是重启命令，此命令必须加上配置文件名，env参数指定运行环境为生产环境</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>其中，通过 <code>server.js</code> 作为入口文件，而非采用 <code>pm2 start npm --name &quot;app name&quot; -- start</code> 命令，因后者在Windows上无法顺利运行。<code>server.js</code>内容如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> exec = <span class="built_in">require</span>(<span class="string">&#x27;child_process&#x27;</span>).exec;</span><br><span class="line">exec(<span class="string">&#x27;npm run start&#x27;</span>, &#123;<span class="attr">windowsHide</span>: <span class="literal">true</span>&#125;)</span><br></pre></td></tr></table></figure>
+
+<h5 id="6-3-部署"><a href="#6-3-部署" class="headerlink" title="6.3 部署"></a>6.3 部署</h5><p>部署前要求：(1) 服务器能访问GitHub; (2)本地能免密访问服务器</p>
+<p>(Windows通过 <code>git bash</code> 执行部署命令)</p>
+<h6 id="6-3-1-初次部署"><a href="#6-3-1-初次部署" class="headerlink" title="6.3.1 初次部署"></a>6.3.1 初次部署</h6><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pm2 deploy production setup</span><br></pre></td></tr></table></figure>
+
+<p>将代码从仓库克隆至服务器</p>
+<h6 id="6-3-2-部署"><a href="#6-3-2-部署" class="headerlink" title="6.3.2 部署"></a>6.3.2 部署</h6><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pm2 deploy production</span><br></pre></td></tr></table></figure>
+
+<p>初次部署后及后续每次更新仓库后，均通过此命令更新服务器代码并重启在线项目。</p>
+<p><strong>注意</strong>：每次更新服务器线上项目前，须将本地开发所做修改通过：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git add . </span><br><span class="line">git commit -m &quot;commit message&quot;</span><br></pre></td></tr></table></figure>
+
+<p>使GitHub仓库为修改后的最新状态，之后才进行<code>pm2 deploy production</code>。</p>
+<h6 id="6-3-3-部署之后"><a href="#6-3-3-部署之后" class="headerlink" title="6.3.3 部署之后"></a>6.3.3 部署之后</h6><p>运行：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pm2 startup</span><br></pre></td></tr></table></figure>
+
+<p>使 PM2 能开机重启，运行：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pm2 save</span><br></pre></td></tr></table></figure>
+
+<p>使当前运行列表的中项目能开机重启。</p>
+<h5 id="6-4-常用命令"><a href="#6-4-常用命令" class="headerlink" title="6.4 常用命令"></a>6.4 常用命令</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">pm2 list # 查看当前项目列表</span><br><span class="line">pm2 logs --lines 20 # 查看指定行数日志</span><br><span class="line">pm2 restart app_name # 重启项目</span><br><span class="line">pm2 reload app_name # 重启项目</span><br><span class="line">pm2 start app_name # 启动项目</span><br><span class="line">pm2 stop app_name # 停止项目</span><br><span class="line">pm2 delete app_name # 从pm2列表中删除项目</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 查看项目详细信息，如执行目录、日志文件等</span></span><br><span class="line">pm2 show app_name</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 查看当前环境变量</span></span><br><span class="line">pm2 env app_id</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="7-SSH"><a href="#7-SSH" class="headerlink" title="7.SSH"></a>7.SSH</h4><p>所谓”公钥登录”，就是用户将自己的公钥储存在远程主机上。登录的时候，远程主机会向用户发送一段随机字符串，用户用自己的私钥加密后，再发回来。远程主机用事先储存的公钥进行解密，如果成功，就证明用户是可信的，直接允许登录shell，不再要求密码。<a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2011/12/ssh_remote_login.html">阮一峰：SSH原理与运用（一）：远程登录</a></p>
+<h5 id="7-1-生成公钥和私钥"><a href="#7-1-生成公钥和私钥" class="headerlink" title="7.1 生成公钥和私钥"></a>7.1 生成公钥和私钥</h5><p>在 windows 或 Ubuntu 的 home 目录下，执行:</p>
+ <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh-keygen</span><br></pre></td></tr></table></figure>
+
+<p>生成 <code>id_rsa</code> 和 <code>id_rsa.pub</code> 密钥文件</p>
+<h5 id="7-2-拷贝公钥至-GitHub"><a href="#7-2-拷贝公钥至-GitHub" class="headerlink" title="7.2 拷贝公钥至 GitHub"></a>7.2 拷贝公钥至 GitHub</h5><p>执行：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat ~/.ssh/id_rsa.pub</span><br></pre></td></tr></table></figure>
+
+<p>将结果复制粘贴至仓库SSH设置中</p>
+<h5 id="7-3-设置本地无密码访问服务器"><a href="#7-3-设置本地无密码访问服务器" class="headerlink" title="7.3 设置本地无密码访问服务器"></a>7.3 设置本地无密码访问服务器</h5><h6 id="7-3-1-首次访问"><a href="#7-3-1-首次访问" class="headerlink" title="7.3.1 首次访问"></a>7.3.1 首次访问</h6><p><code>ssh user@host</code> , 第一次访问需输入密码，会将服务器的公钥保存到本地 <code>~/.ssh/known_hosts</code>里。</p>
+<h6 id="7-3-2-将本地公钥提交至服务器"><a href="#7-3-2-将本地公钥提交至服务器" class="headerlink" title="7.3.2 将本地公钥提交至服务器"></a>7.3.2 将本地公钥提交至服务器</h6><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh-copy-id user@host</span><br></pre></td></tr></table></figure>
+
+<p>此命令将本地公钥提交至服务器，保存至服务器 <code>/home/user/.ssh/authorized_keys</code> 文件里，如此，便可实现无密码访问服务器。</p>
+<h4 id="8-Nginx"><a href="#8-Nginx" class="headerlink" title="8.Nginx"></a>8.Nginx</h4><h5 id="8-1-安装"><a href="#8-1-安装" class="headerlink" title="8.1 安装"></a>8.1 安装</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt-get install nginx</span><br></pre></td></tr></table></figure>
+
+<p><a target="_blank" rel="noopener" href="https://nginx.org/en/docs/beginners_guide.html">基本概念</a></p>
+<h5 id="8-2-配置"><a href="#8-2-配置" class="headerlink" title="8.2 配置"></a>8.2 配置</h5><h6 id="8-2-1-新建配置文件"><a href="#8-2-1-新建配置文件" class="headerlink" title="8.2.1 新建配置文件"></a>8.2.1 新建配置文件</h6><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo vim /etc/nginx/sites-available/sample.domain</span><br></pre></td></tr></table></figure>
+
+<h6 id="8-2-2-添加硬链接"><a href="#8-2-2-添加硬链接" class="headerlink" title="8.2.2 添加硬链接"></a>8.2.2 添加硬链接</h6><p>通过绝对路径添加硬链接至 <code>/etc/nginx/sites-enabled/</code>目录：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo ln -s /etc/nginx/sites-available/linyibai.space /etc/nginx/sites-enabled/</span><br></pre></td></tr></table></figure>
+
+<p>使配置文件在两个目录下保持同步更新，之后只更新 <code>sites-available</code>下的文件即可，注意使用绝对路径，否则会生成空文件</p>
+<h6 id="8-2-3-每次更新-nginx-配置文件后执行："><a href="#8-2-3-每次更新-nginx-配置文件后执行：" class="headerlink" title="8.2.3 每次更新 nginx 配置文件后执行："></a>8.2.3 每次更新 nginx 配置文件后执行：</h6><ol>
+<li><p>测试配置文件是否有误：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo nginx -t</span><br></pre></td></tr></table></figure></li>
+<li><p>重启 nginx ：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo service nginx restart</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h5 id="8-3-配置文件内容"><a href="#8-3-配置文件内容" class="headerlink" title="8.3 配置文件内容"></a>8.3 配置文件内容</h5><h6 id="8-3-1-添加域名前，只通过IP访问时"><a href="#8-3-1-添加域名前，只通过IP访问时" class="headerlink" title="8.3.1 添加域名前，只通过IP访问时"></a>8.3.1 添加域名前，只通过IP访问时</h6><figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">server</span> &#123;</span><br><span class="line">  <span class="attribute">listen</span> <span class="number">80</span>;</span><br><span class="line">  <span class="attribute">listen</span> [::]:<span class="number">80</span>;</span><br><span class="line"></span><br><span class="line">  <span class="attribute">server_name</span> IP address or Domain name;</span><br><span class="line"></span><br><span class="line">  <span class="attribute">location</span> / &#123;</span><br><span class="line">    <span class="attribute">proxy_pass</span> http://localhost:3000;</span><br><span class="line">    <span class="attribute">proxy_http_version</span> <span class="number">1</span>.<span class="number">1</span>;</span><br><span class="line">    <span class="attribute">proxy_set_header</span> Upgrade $http_upgrade;</span><br><span class="line">    <span class="attribute">proxy_set_header</span> Connection <span class="string">&#x27;upgrade&#x27;</span>;</span><br><span class="line">    <span class="attribute">proxy_set_header</span> Host $host;</span><br><span class="line">    <span class="attribute">proxy_cache_bypass</span> $http_upgrade;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Next-js/" rel="tag"># Next.js</a>
+              <a href="/tags/Ubuntu/" rel="tag"># Ubuntu</a>
+              <a href="/tags/Server-Deployment/" rel="tag"># Server Deployment</a>
+              <a href="/tags/MongoDB/" rel="tag"># MongoDB</a>
+              <a href="/tags/SSH/" rel="tag"># SSH</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2020/12/01/python-%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/" rel="prev" title="python 数据分析">
+                  <i class="fa fa-chevron-left"></i> python 数据分析
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">林一白</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

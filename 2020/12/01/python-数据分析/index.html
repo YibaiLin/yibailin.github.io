@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" integrity="sha256-mUZM63G8m73Mcidfrv5E+Y61y7a12O5mW4ezU3bxqW4=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"yibailin.cn","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+<meta name="description" content="人生苦短，让我们学一点python 希望大家不要在意我取这样一个自媒体吸引眼球式的题目。言归正传。 python是一门简单的编程语言，千万不要被“编程”这个词语唬住，所谓“编程”，其实就是把你想让电脑帮你做的事情，通过计算机听得懂的语言，即一些非常简单的英文单词按照固定的语法格式表述出来即可，所以千万不要看到代码就“头大”。从零基础到初步掌握这个小工具，一周时间足矣。No kidding! 我不打">
+<meta property="og:type" content="article">
+<meta property="og:title" content="python 数据分析">
+<meta property="og:url" content="https://yibailin.cn/2020/12/01/python-%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/index.html">
+<meta property="og:site_name" content="林一白的博客">
+<meta property="og:description" content="人生苦短，让我们学一点python 希望大家不要在意我取这样一个自媒体吸引眼球式的题目。言归正传。 python是一门简单的编程语言，千万不要被“编程”这个词语唬住，所谓“编程”，其实就是把你想让电脑帮你做的事情，通过计算机听得懂的语言，即一些非常简单的英文单词按照固定的语法格式表述出来即可，所以千万不要看到代码就“头大”。从零基础到初步掌握这个小工具，一周时间足矣。No kidding! 我不打">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://image.xiuwujinda.cn/2020/12/01/CGIT.png">
+<meta property="og:image" content="https://image.xiuwujinda.cn/2020/12/01/model.png">
+<meta property="og:image" content="https://image.xiuwujinda.cn/2020/12/01/sector.png">
+<meta property="og:image" content="https://image.xiuwujinda.cn/2020/12/01/sp.png">
+<meta property="og:image" content="https://image.xiuwujinda.cn/2020/12/01/%E5%88%86%E8%A1%8C%E4%B8%9ACGIT.png">
+<meta property="og:image" content="https://image.xiuwujinda.cn/2020/12/01/china.png">
+<meta property="og:image" content="https://image.xiuwujinda.cn/2020/12/01/coutries.png">
+<meta property="og:image" content="https://image.xiuwujinda.cn/2020/12/01/gis.png">
+<meta property="article:published_time" content="2020-12-01T15:00:04.000Z">
+<meta property="article:modified_time" content="2021-10-30T06:43:26.996Z">
+<meta property="article:author" content="林一白">
+<meta property="article:tag" content="pandas">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://image.xiuwujinda.cn/2020/12/01/CGIT.png">
+
+
+<link rel="canonical" href="https://yibailin.cn/2020/12/01/python-%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://yibailin.cn/2020/12/01/python-%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/","path":"2020/12/01/python-数据分析/","title":"python 数据分析"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>python 数据分析 | 林一白的博客</title>
+  
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">林一白的博客</h1>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-笔记"><a href="/notes/" rel="section"><i class="fa fa-book fa-fw"></i>笔记</a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86%EF%BC%9A%E4%BB%A5%E4%B8%AD%E5%9B%BD%E5%85%A8%E7%90%83%E6%8A%95%E8%B5%84%E8%BF%BD%E8%B8%AA%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%BA%E4%BE%8B"><span class="nav-number">1.</span> <span class="nav-text">一、数据处理：以中国全球投资追踪数据库为例</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BA%8C%E3%80%81%E7%94%BB%E5%9B%BE"><span class="nav-number">2.</span> <span class="nav-text">二、画图</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%B8%89%E3%80%81%E7%88%AC%E5%8F%96%E6%95%B0%E6%8D%AE"><span class="nav-number">3.</span> <span class="nav-text">三、爬取数据</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%AD%A6%E4%B9%A0%E8%B5%84%E6%BA%90"><span class="nav-number">5.</span> <span class="nav-text">学习资源</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E6%96%87%E7%8C%AE"><span class="nav-number">6.</span> <span class="nav-text">参考文献</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="林一白"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">林一白</p>
+  <div class="site-description" itemprop="description">最初的梦想，一定会到达</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">5</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Yibailin" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Yibailin" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:linyibai23@gmail.com" title="E-Mail → mailto:linyibai23@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://yibailin.cn/2020/12/01/python-%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="林一白">
+      <meta itemprop="description" content="最初的梦想，一定会到达">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="林一白的博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          python 数据分析
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2020-12-01 23:00:04" itemprop="dateCreated datePublished" datetime="2020-12-01T23:00:04+08:00">2020-12-01</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2021-10-30 14:43:26" itemprop="dateModified" datetime="2021-10-30T14:43:26+08:00">2021-10-30</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/economics/" itemprop="url" rel="index"><span itemprop="name">economics</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/python/" itemprop="url" rel="index"><span itemprop="name">python</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p><strong>人生苦短，让我们学一点python</strong></p>
+<p>希望大家不要在意我取这样一个自媒体吸引眼球式的题目。言归正传。</p>
+<p>python是一门简单的编程语言，千万不要被“编程”这个词语唬住，所谓“编程”，其实就是把你想让电脑帮你做的事情，通过计算机听得懂的语言，即一些非常简单的英文单词按照固定的语法格式表述出来即可，所以千万不要看到代码就“头大”。从零基础到初步掌握这个小工具，一周时间足矣。No kidding!</p>
+<p>我不打算介绍python的来历，也不打算介绍python的语法。我想通过给大家分享四个具体的例子和使用场景，展示下python对于我们经济学专业的学生而言可能有什么帮助。</p>
+<span id="more"></span>
+
+<h5 id="一、数据处理：以中国全球投资追踪数据库为例"><a href="#一、数据处理：以中国全球投资追踪数据库为例" class="headerlink" title="一、数据处理：以中国全球投资追踪数据库为例"></a>一、数据处理：以中国全球投资追踪数据库为例</h5><p>在我们研究一个专业问题时，数据往往是我们了解问题特征的依据和展开研究的第一步程序。对于一些数据量极大、类别极多的数据，处理起来可能会比较费时费力，这种时候，我们可以使用python来编写程序，帮助我们灵活地操作这些数据以得到我们想要的统计结果。</p>
+<p>以中国全球投资追踪数据库（China Global Investment Tracker ）为例，CGIT数据库是美国企业研究所发布的记录中国海外投资和对外承包工程的微观数据库，该数据库统计了自2005年至今共3400多笔金额在1亿美元以上的投资记录，包括每笔投资的投资总额、中国的母公司、东道国、投资所属行业等信息。数据的excel是这样的：</p>
+<p><img src="https://image.xiuwujinda.cn/2020/12/01/CGIT.png" alt="CGIT"></p>
+<p>可以看到，总计有3444条记录数据。假如我们需要分析2005-2019年中国对外投资和承包工程每一年每个行业的投资额是多少，以观察行业投资趋势。即，我们期望得到下面这样格式的汇总数据：</p>
+<p><img src="https://image.xiuwujinda.cn/2020/12/01/model.png" alt="model"></p>
+<p>来看下python如何实现，完整代码如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"></span><br><span class="line"><span class="comment"># 从excel提取数据</span></span><br><span class="line">data = pd.read_excel(<span class="string">&#x27;./data/test.xlsx&#x27;</span>)</span><br><span class="line">data.drop(columns=[<span class="string">&#x27;BRI&#x27;</span>], inplace=<span class="literal">True</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 按年份、行业归总数据</span></span><br><span class="line">df = data.groupby([<span class="string">&#x27;Year&#x27;</span>, <span class="string">&#x27;Sector&#x27;</span>]).<span class="built_in">sum</span>().unstack(-<span class="number">1</span>, <span class="number">0</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 将结果保存至新的excel表</span></span><br><span class="line">df.to_excel(<span class="string">&#x27;./data/分行业CGIT.xlsx&#x27;</span>)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>核心代码只需一行：</p>
+<p><code>data.groupby([&#39;Year&#39;, &#39;Sector&#39;]).sum().unstack(-1, 0)</code></p>
+<p>便可实现我们需要的结果，即将3444条数据按年份、行业分类加总（如下图所示）。是不是看着单词就明白什么意思了？这条指令告诉计算机去处理“data”对象，先依据“Year”和“Sector”进行“groupby”即分组处理，再“sum”分组加总后，最后“unstack”展开。</p>
+<p><img src="https://image.xiuwujinda.cn/2020/12/01/sector.png" alt="sector"></p>
+<h5 id="二、画图"><a href="#二、画图" class="headerlink" title="二、画图"></a>二、画图</h5><p>金刚和沈坤荣（2019）的研究驳斥了“一带一路”是债务陷阱的说法，文中利用CGIT数据库分析了中国海外投资各行业的时间趋势，并展示如下图所示的结果：</p>
+<p><img src="https://image.xiuwujinda.cn/2020/12/01/sp.png" alt="sp"></p>
+<p>金刚和沈坤荣是使用stata代码制作的上图，同样的，利用前面处理过的数据，我们也可以使用python制作类似的图。绘图代码如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 开始画图</span></span><br><span class="line">fig, axs = plt.subplots(<span class="number">2</span>, <span class="number">4</span>, figsize=(<span class="number">15</span>, <span class="number">7.5</span>)) <span class="comment"># 指定画布布局，2行4列，共8幅子图</span></span><br><span class="line">axs_flat = axs.flat</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i, ax <span class="keyword">in</span> <span class="built_in">enumerate</span>(axs_flat):</span><br><span class="line">    sector = sectors[i]</span><br><span class="line">    label = <span class="string">&#x27;(&#x27;</span> + char[i] + <span class="string">&#x27;) &#x27;</span> + sector</span><br><span class="line">    ax.set_xlim(<span class="number">2004</span>, <span class="number">2020</span>) <span class="comment"># 设置x轴范围</span></span><br><span class="line">    ax.set_xticks(np.arange(<span class="number">2006</span>, <span class="number">2022</span>, <span class="number">4</span>)) <span class="comment"># 设置x轴刻度</span></span><br><span class="line">    ax.set_xlabel(label) <span class="comment"># 设置x轴标题</span></span><br><span class="line">    ax.set_ylim(<span class="number">0</span>, <span class="number">1000</span>) <span class="comment"># 设置y轴标题</span></span><br><span class="line">    ax.set_yticks(np.arange(<span class="number">0</span>, <span class="number">1000</span>, <span class="number">200</span>)) <span class="comment"># 设置y轴刻度</span></span><br><span class="line">    ax.annotate(<span class="string">&#x27;(100Million $)&#x27;</span>, xy=(-<span class="number">0.2</span>, <span class="number">1.02</span>), xycoords=<span class="string">&#x27;axes fraction&#x27;</span>) <span class="comment"># 标注单位</span></span><br><span class="line">    ax.plot(<span class="string">&#x27;Year&#x27;</span>, sector, data=df, marker=<span class="string">&#x27;s&#x27;</span>, color=<span class="string">&#x27;black&#x27;</span>, markersize=<span class="number">2</span>) <span class="comment"># 绘图命令</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 保存图片</span></span><br><span class="line">fig.savefig(<span class="string">&#x27;../pictures/分行业CGIT.png&#x27;</span>, dpi=<span class="number">120</span>)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>示例效果图如下所示：</p>
+<p><img src="https://image.xiuwujinda.cn/2020/12/01/%E5%88%86%E8%A1%8C%E4%B8%9ACGIT.png" alt="分行业CGIT"></p>
+<p>当然，还可以继续个性化调整该图片的显示效果。对图片上的所有可视元素均可以进行操作调整，这正是python作图的灵活性的体现。</p>
+<h5 id="三、爬取数据"><a href="#三、爬取数据" class="headerlink" title="三、爬取数据"></a>三、爬取数据</h5><p>自动化是计算机程序最大的魅力所在。<code>https://outlook.gihub.org/</code> 这个网站可以下载《全球基础设施展望报告》中的国别数据，但是每次只能下载一个国家的数据。比如下载中国的基建数据（如下图所示），可以得到包含七个基建行业的自2007年至2040年的数据，有三个子表：Investment，Needs 和 Gap。其中，Investment子表包含按当前中国实际投资额的趋势进行预测的年度投资额；Needs指按最佳效益测算中国每年需要多少基础设施投资；Gap指Needs和Investment的差额。</p>
+<p><img src="https://image.xiuwujinda.cn/2020/12/01/china.png" alt="china"></p>
+<p>但是，该报告共有56个国家的数据，如果每次下载一个国家的数据，汇总起来是比较麻烦的，仅仅是进行56次下载这个过程本身就很麻烦。这个时候，python便很适合用来完成这些重复性的操作，核心伪代码如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> i, country <span class="keyword">in</span> <span class="built_in">enumerate</span>(countries): <span class="comment"># 遍历国家列表，循环56次下载</span></span><br><span class="line">    response = requests.get(url, params=&#123;<span class="string">&#x27;countries&#x27;</span>: country&#125;)  <span class="comment"># 发送http请求，进行一次下载</span></span><br><span class="line">    data.append(process(response)) <span class="comment"># 从下载得到的数据中提取需要的数据并处理</span></span><br><span class="line"></span><br><span class="line">data.to_excel(filename) <span class="comment"># 将结果保存至excel</span></span><br></pre></td></tr></table></figure>
+
+<p>上面伪代码的思路很直白，即发起一次下载网络请求，收到数据后进行处理，然后循环56次。运行程序，得到最终的结果如下：</p>
+<p><img src="https://image.xiuwujinda.cn/2020/12/01/coutries.png" alt="coutries"></p>
+<p>事实上，越是有规律且重复次数越多的数据获取或数据操作的工作，越适合用python来处理。比如，查询城市的经纬度，可以通过Google Earth 人工一个个地查询，如下图所示查询西安市的经纬度：</p>
+<p>![google earth](<a target="_blank" rel="noopener" href="https://image.xiuwujinda.cn/2020/12/01/google">https://image.xiuwujinda.cn/2020/12/01/google</a> earth.png)</p>
+<p>但当查询城市数量是1000个时，人工查询是极其枯燥且浪费时间的，而通过python程序，只需要将一次查询的步骤用程序来表示，剩下的999次，通过循环，程序自己便可以完成。核心代码如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> j, city <span class="keyword">in</span> <span class="built_in">enumerate</span>(cities_cn): <span class="comment"># 循环1000次，遍历每个城市</span></span><br><span class="line">    r = requests.get(url, params=&#123;<span class="string">&#x27;address&#x27;</span>: city&#125;) <span class="comment"># 一次查询，访问百度地图api查询</span></span><br><span class="line">    result = r.json()[<span class="string">&#x27;result&#x27;</span>]</span><br><span class="line">    record = [cities[j], city, result[<span class="string">&#x27;location&#x27;</span>][<span class="string">&#x27;lng&#x27;</span>], result[<span class="string">&#x27;location&#x27;</span>][<span class="string">&#x27;lat&#x27;</span>], result[<span class="string">&#x27;confidence&#x27;</span>]] <span class="comment"># 从查询结果提取经纬度信息</span></span><br><span class="line">    poi.append(record) <span class="comment"># 将信息保存至缓存中</span></span><br><span class="line">    <span class="keyword">if</span> j <span class="keyword">in</span> holdon:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&#x27;sleelp for 2 seconds...&#x27;</span>)</span><br><span class="line">        time.sleep(<span class="number">2</span>) <span class="comment"># 每10次查询后，暂停2秒再继续查询</span></span><br><span class="line">    </span><br><span class="line">poi_df = pd.DataFrame(poi, columns=[<span class="string">&#x27;city&#x27;</span>, <span class="string">&#x27;city_cn&#x27;</span>, <span class="string">&#x27;lng&#x27;</span>, <span class="string">&#x27;lat&#x27;</span>, <span class="string">&#x27;confidence&#x27;</span>])</span><br><span class="line">poi_df.to_excel(dest, index=<span class="literal">False</span>) <span class="comment"># 将最终结果保存至excel表中</span></span><br></pre></td></tr></table></figure>
+
+<p>结果如下：</p>
+<p><img src="https://image.xiuwujinda.cn/2020/12/01/gis.png" alt="gis"></p>
+<p>相较于用1000次重复的人工操作而言，一个python脚本可谓是 lifesaver 了。</p>
+<h5 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h5><p>学习使用python，对于我们学术研究来说当然不是必须的，一方面可能数据量根本不值当通过编写一段程序去处理，另一方面从零基础开始学习还是需要一定的时间成本。不过，python及其背后的开源世界所提供的各种科学分析工具，在大批量数据的处理、灵活多变的作图、通过互联网爬取大量数据上是很有帮助的，此外，python也可以代替stata用于计量分析。因此，我认为python值得我们花一点时间去探索和了解。希望通过本文这几个具体且实际的例子，可以激发各位了解这个小工具的兴趣，建议感兴趣的同学可以尝试去学习下这门编程语言。</p>
+<h5 id="学习资源"><a href="#学习资源" class="headerlink" title="学习资源"></a>学习资源</h5><p>python语言学习：<a target="_blank" rel="noopener" href="https://www.liaoxuefeng.com/wiki/1016959663602400/1018138095494592">https://www.liaoxuefeng.com/wiki/1016959663602400/1018138095494592</a></p>
+<p>数据处理包 pandas：<a target="_blank" rel="noopener" href="https://www.pypandas.cn/docs/getting_started/overview.html">https://www.pypandas.cn/docs/getting_started/overview.html</a></p>
+<p>数据处理包 numpy：<a target="_blank" rel="noopener" href="https://www.numpy.org.cn/article/">https://www.numpy.org.cn/article/</a></p>
+<p>画图包 matplotlib：<a target="_blank" rel="noopener" href="https://matplotlib.org/index.html">https://matplotlib.org/index.html</a></p>
+<h5 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h5><p>[1] 金刚,沈坤荣.中国企业对“一带一路”沿线国家的交通投资效应:发展效应还是债务陷阱[J].中国工业经济,2019(09):79-97.</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/pandas/" rel="tag"># pandas</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2020/01/13/%E2%80%9C%E6%96%B0%E4%B8%9D%E7%BB%B8%E4%B9%8B%E8%B7%AF%E2%80%9D%EF%BC%9A%E4%B8%80%E7%AF%87%E8%AF%84%E8%AE%BA%E6%96%87%E7%AB%A0/" rel="prev" title="“新丝绸之路”：一篇评论文章">
+                  <i class="fa fa-chevron-left"></i> “新丝绸之路”：一篇评论文章
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2021/10/29/Next-js-%E9%A1%B9%E7%9B%AE%E6%9C%8D%E5%8A%A1%E5%99%A8%E9%83%A8%E7%BD%B2%E6%8C%87%E5%8D%97/" rel="next" title="Next.js 项目服务器部署指南">
+                  Next.js 项目服务器部署指南 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">林一白</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>
